@@ -1,1 +1,21 @@
+<%= form_for @post do |f| %>
 
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+
+    <% #category_ids: [] added to post_params %>
+    <%= f.collection_check_boxes :category_ids, Category.all, :id, :name %>
+
+    <% #categories_attributes: [:name] added to post_params %>
+    <% # add accepts_nested_attributes_for :categories unless you want to customize categories_attributes=(category_attributes) %>
+    <%= f.fields_for :categories, @post.categories.build do |categories_fields| %>
+        <%= categories_fields.label :name, "Category" %>
+        <%= categories_fields.text_field :name %>
+    <% end %>
+
+    <%= f.submit %>
+
+<% end %>
